@@ -3,89 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instrucciones - Desafío Matemático</title>
+    <title>Instrucciones - Ahorcado Matemático P2P</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Carga de MathJax -->
-    <script>
-        window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-            svg: { fontCache: 'global' }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         body {
-            background-color: #f0f8ff;
+            background-color: var(--bg-color, #0f172a);
+            color: var(--text-main, #f8fafc);
             padding: 20px;
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
         .instructions-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: #ffffff;
+            max-width: 650px;
+            width: 100%;
+            background: var(--card-bg, #1e293b);
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            border: 1px solid var(--border-color, #334155);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
         .instructions-container h1 {
-            color: #2c3e50;
-            border-bottom: 3px solid #f1c40f;
-            padding-bottom: 10px;
+            color: #38bdf8;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
         }
         .instructions-container ul {
             text-align: left;
-            line-height: 1.8;
-            color: #34495e;
-            font-size: 16px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            font-size: 1rem;
+            list-style-type: none;
+            padding-left: 0;
         }
         .instructions-container li {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
+            background: #0f172a;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4f46e5;
         }
-        .badge {
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            color: #fff;
-        }
-        .badge-joker-win { background-color: #2ecc71; }
-        .badge-joker-lose { background-color: #e74c3c; }
         .btn-back {
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 10px 20px;
-            background-color: #3498db;
+            background-color: #4f46e5;
             color: white;
             text-decoration: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: bold;
+            transition: background 0.2s;
+        }
+        .btn-back:hover {
+            background-color: #4338ca;
         }
     </style>
 </head>
 <body>
 
     <div class="instructions-container">
-        <h1>🐝 Instrucciones del Desafío Matemático</h1>
+        <h1>📐 Instrucciones del Ahorcado Matemático</h1>
         
-        <p>¡Bienvenido al juego! Demuestra tus habilidades numéricas y de razonamiento siguiendo estas reglas:</p>
+        <p style="margin-bottom: 20px; color: #94a3b8;">
+            Bienvenido al modo multijugador P2P. Pon a prueba tu vocabulario y agilidad matemática en tiempo real contra un compañero.
+        </p>
 
         <ul>
-            <li><strong>Objetivo:</strong> Cruzar todo el tablero respondiendo preguntas para obtener tu <strong>Diploma de Excelencia</strong>.</li>
-            <li><strong>Mecánica por Columnas:</strong> Debes avanzar columna por columna (o fila en dispositivos móviles). Solo podrás seleccionar cartas de la columna activa.</li>
-            <li><strong>Preguntas Matemáticas:</strong> Al voltear una carta, se desplegará una pregunta de opción múltiple con expresiones como fracciones $\frac{a}{b}$, potencias $x^n$ o raíces $\sqrt{x}$.
-                <ul>
-                    <li>Si respondes <strong>Correctamente ✅</strong>, aseguras tu avance a la siguiente columna.</li>
-                    <li>Si respondes <strong>Incorrectamente ❌</strong>, la carta se inhabilitará y tendrás que intentar con otra carta de esa misma columna.</li>
-                </ul>
+            <li>
+                <strong>🤝 Conexión P2P:</strong> Un jugador crea la sala para obtener un código de 3 dígitos y el otro jugador lo ingresa para conectarse directamente.
             </li>
-            <li><strong>Comodines Especiales 🃏:</strong>
-                <ul>
-                    <li><span class="badge badge-joker-win">🚀 ¡Avanzas!</span> te permite pasar automáticamente a la siguiente columna sin responder pregunta.</li>
-                    <li><span class="badge badge-joker-lose">☠️ ¡Reinicia!</span> te obligará a empezar el juego desde el primer nivel.</li>
-                </ul>
+            <li>
+                <strong>🔄 Turnos Alternados:</strong> Cada jugador seleccionará una letra en su turno.
+            </li>
+            <li>
+                <strong>🎯 Aciertos y Continuidade:</strong> Si eliges una letra correcta, conserva el turno para seguir adivinando la palabra.
+            </li>
+            <li>
+                <strong>❌ Errores y Penalizaciones:</strong> Si fallas, el turno pasa inmediatamente a tu oponente y se dibujará una parte de la figura del ahorcado.
+            </li>
+            <li>
+                <strong>🏆 Condición de Victoria:</strong> Gana el jugador que adivine la última letra que complete la palabra secreta.
+            </li>
+            <li>
+                <strong>💀 Condición de Derrota:</strong> Si entre ambos acumulan 6 errores, la figura se completará y la partida terminará.
             </li>
         </ul>
 
-        <a href="index.html" class="btn-back">⬅️ Volver al Juego</a>
+        <a href="index.html" class="btn-back">⬅️ Volver a la Pantalla Inicial</a>
     </div>
 
 </body>
