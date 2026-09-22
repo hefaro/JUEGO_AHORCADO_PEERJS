@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instrucciones - Desafío Matemático</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Carga de MathJax -->
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            background-color: #f0f8ff;
+            padding: 20px;
+            display: block;
+        }
+        .instructions-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .instructions-container h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #f1c40f;
+            padding-bottom: 10px;
+        }
+        .instructions-container ul {
+            text-align: left;
+            line-height: 1.8;
+            color: #34495e;
+            font-size: 16px;
+        }
+        .instructions-container li {
+            margin-bottom: 12px;
+        }
+        .badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .badge-joker-win { background-color: #2ecc71; }
+        .badge-joker-lose { background-color: #e74c3c; }
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="instructions-container">
+        <h1>🐝 Instrucciones del Desafío Matemático</h1>
+        
+        <p>¡Bienvenido al juego! Demuestra tus habilidades numéricas y de razonamiento siguiendo estas reglas:</p>
+
+        <ul>
+            <li><strong>Objetivo:</strong> Cruzar todo el tablero respondiendo preguntas para obtener tu <strong>Diploma de Excelencia</strong>.</li>
+            <li><strong>Mecánica por Columnas:</strong> Debes avanzar columna por columna (o fila en dispositivos móviles). Solo podrás seleccionar cartas de la columna activa.</li>
+            <li><strong>Preguntas Matemáticas:</strong> Al voltear una carta, se desplegará una pregunta de opción múltiple con expresiones como fracciones $\frac{a}{b}$, potencias $x^n$ o raíces $\sqrt{x}$.
+                <ul>
+                    <li>Si respondes <strong>Correctamente ✅</strong>, aseguras tu avance a la siguiente columna.</li>
+                    <li>Si respondes <strong>Incorrectamente ❌</strong>, la carta se inhabilitará y tendrás que intentar con otra carta de esa misma columna.</li>
+                </ul>
+            </li>
+            <li><strong>Comodines Especiales 🃏:</strong>
+                <ul>
+                    <li><span class="badge badge-joker-win">🚀 ¡Avanzas!</span> te permite pasar automáticamente a la siguiente columna sin responder pregunta.</li>
+                    <li><span class="badge badge-joker-lose">☠️ ¡Reinicia!</span> te obligará a empezar el juego desde el primer nivel.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <a href="index.html" class="btn-back">⬅️ Volver al Juego</a>
+    </div>
+
+</body>
+</html>

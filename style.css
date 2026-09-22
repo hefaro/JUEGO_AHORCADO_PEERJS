@@ -1,0 +1,295 @@
+:root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --success-color: #16a34a;
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --border-color: #334155;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.header-bar {
+    text-align: center;
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.status-bar {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #38bdf8;
+    font-weight: 600;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.hint-card h2 {
+    font-size: 1.1rem;
+    color: var(--text-sub);
+    margin-bottom: 10px;
+}
+
+.math-container {
+    font-size: 1.4rem;
+    padding: 10px;
+    background: #0f172a;
+    border-radius: 8px;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.word-display {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-height: 60px;
+    align-items: center;
+}
+
+.letter-box {
+    width: 45px;
+    height: 55px;
+    border-bottom: 4px solid var(--primary-color);
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    gap: 8px;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.key-btn {
+    padding: 12px 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: #334155;
+    color: var(--text-main);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.key-btn:hover:not(:disabled) {
+    background: var(--primary-color);
+}
+
+.key-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* --- MODAL Y ESTRUCTURA DE LOBBY --- */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.modal-hidden,
+.modal-hidden,
+.hidden {
+    display: none !important;
+}
+
+.modal-content {
+    background: #ffffff;
+    color: #0f172a;
+    width: 90%;
+    max-width: 500px;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.modal-header {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.badge {
+    background: #e0e7ff;
+    color: #4338ca;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    padding: 10px;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: #e2e8f0;
+    margin: 15px 0;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.lobby-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.option-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.option-header-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.option-card p {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 10px;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.btn-primary { background: #4f46e5; color: white; width: 100%; }
+.btn-success { background: #16a34a; color: white; }
+
+.host-code-box {
+    margin-top: 10px;
+    background: #e0e7ff;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.code-box {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #4338ca;
+    letter-spacing: 2px;
+}
+
+.status-msg {
+    margin-top: 8px;
+    font-weight: 600;
+    color: #16a34a;
+    font-size: 0.9rem;
+}
+
+.join-input-group {
+    display: flex;
+    gap: 8px;
+}
+
+.join-input-group input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Contenedor del lienzo */
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px auto;
+    width: 100%;
+}
+
+/* Estilo del lienzo del ahorcado */
+#hangman-canvas {
+    background-color: #f8fafc; /* Fondo claro para resaltar el trazo */
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}

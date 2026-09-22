@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahorcado Matemático P2P</title>
+    <!-- KaTeX para expresiones matemáticas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <!-- Librería PeerJS desde CDN -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <!-- Barra superior de estado -->
+        <header class="header-bar">
+            <h1>🎮 Ahorcado Matemático</h1>
+            <div id="status-bar" class="status-bar hidden">
+                <span id="status-text">Esperando conexión...</span>
+            </div>
+        </header>
+
+        <!-- Contenedor Principal del Juego -->
+        <main class="main-content">
+            <!-- Pista Matemática -->
+            <div class="card hint-card">
+                <h2>Pista Matemática:</h2>
+                <div id="hint-display" class="math-container">\text{Cargando pista...}</div>
+            </div>
+
+            <!-- DIBUJO DEL AHORCADO (CANVAS) -->
+            <div class="card canvas-card">
+                <div class="canvas-container">
+                    <canvas id="hangman-canvas" width="200" height="200"></canvas>
+                </div>
+            </div>
+
+            <!-- Palabra a adivinar -->
+            <div class="card word-card">
+                <div id="word-display" class="word-display"></div>
+            </div>
+
+            <!-- Teclado Virtual -->
+            <div class="card keyboard-card">
+                <div id="keyboard" class="keyboard-grid"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL INICIAL DE CONEXIÓN Y LOBBY -->
+    <div id="start-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="badge">🎮 Modo Multijugador</span>
+                <h2>¡Bienvenido al Ahorcado!</h2>
+                <p>Ingresa tu nombre para comenzar:</p>
+            </div>
+
+            <div class="form-group">
+                <label for="player-name-input">👤 Tu Nombre:</label>
+                <input type="text" id="player-name-input" placeholder="Ej: Héctor" autocomplete="off">
+            </div>
+
+            <hr class="divider">
+            <p class="section-title">¿CÓMO QUIERES JUGAR?</p>
+
+            <div class="lobby-options">
+                <!-- Opción Crear Sala -->
+                <div class="option-card primary-option">
+                    <div class="option-header-title">
+                        <span class="option-icon">👑</span>
+                        <h3>Crear una Sala (Anfitrión)</h3>
+                    </div>
+                    <p>Sé el anfitrión y comparte el código con tu compañero.</p>
+                    <button id="host-game-btn" class="btn btn-primary">
+                        <span>Crear Nueva Partida</span> 🏠
+                    </button>
+                    
+                    <div id="host-id-container" class="hidden host-code-box">
+                        <p>Comparte este código de 3 cifras:</p>
+                        <div id="display-peer-id" class="code-box">---</div>
+                        
+                        <p id="lobby-status-text" class="status-msg">
+                            Esperando oponente...
+                        </p>
+
+                        <!-- Botón para iniciar partida al conectarse -->
+                        <button id="start-match-btn" class="btn btn-success hidden" style="margin-top: 12px; width: 100%;">
+                            🚀 ¡Iniciar Juego Ahora!
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Opción Unirse a Sala -->
+                <div id="join-option-card" class="option-card secondary-option">
+                    <div class="option-header-title">
+                        <span class="option-icon">🚀</span>
+                        <h3>Unirse a una Sala</h3>
+                    </div>
+                    <p>Ingresa el código proporcionado por el anfitrión.</p>
+                    <div class="join-input-group">
+                        <input type="number" id="join-peer-id-input" placeholder="Ej: 121" min="100" max="999" autocomplete="off">
+                        <button id="join-game-btn" class="btn btn-success">
+                            Unirse 🚀
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
