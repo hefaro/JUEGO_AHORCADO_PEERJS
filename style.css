@@ -1,23 +1,28 @@
+/* Archivo: style.css - Estilo Talent Show I.E. Narciso Cabal Salcedo */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@600;700&display=swap');
+
 :root {
-    --bg-color: #0f172a;
-    --card-bg: #1e293b;
-    --primary-color: #4f46e5;
-    --primary-hover: #4338ca;
-    --success-color: #16a34a;
+    --bg-color: #0d1b2a;
+    --card-bg: #1b263b;
+    --primary-color: #f59e0b;
+    --primary-hover: #d97706;
+    --success-color: #10b981;
     --text-main: #f8fafc;
-    --text-sub: #94a3b8;
+    --text-sub: #cbd5e1;
     --border-color: #334155;
+    --bee-yellow: #facc15;
+    --accent-green: #22c55e;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Quicksand', 'Segoe UI', Tahoma, sans-serif;
 }
 
 body {
-    background-color: var(--bg-color);
+    background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
     color: var(--text-main);
     min-height: 100vh;
     display: flex;
@@ -34,26 +39,83 @@ body {
     gap: 15px;
 }
 
+/* Identidad Escolar y Evento */
+.school-identity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.school-name {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-sub);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.event-badge {
+    background: linear-gradient(90deg, #f59e0b, #eab308);
+    color: #0f172a;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.4);
+    letter-spacing: 1px;
+}
+
+/* Barra Superior */
 .header-bar {
     text-align: center;
-    background: var(--card-bg);
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    padding: 20px;
+    padding-right: 90px;
+    border-radius: 18px;
+    border: 2px solid var(--bee-yellow);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-bar::after {
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 75px;
+    height: 75px;
+    background: url('bee.png') no-repeat center center/contain;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+}
+
+.header-bar h1 {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--bee-yellow);
+    font-size: 1.9rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .status-bar {
     margin-top: 8px;
-    font-size: 0.9em;
+    font-size: 1rem;
     color: #38bdf8;
-    font-weight: 600;
+    font-weight: 700;
 }
 
+/* Tarjetas de Contenido */
 .card {
     background: var(--card-bg);
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid var(--border-color);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
     text-align: center;
 }
 
@@ -65,74 +127,112 @@ body {
 
 .math-container {
     font-size: 1.4rem;
-    padding: 10px;
+    padding: 12px;
     background: #0f172a;
-    border-radius: 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
     min-height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--bee-yellow);
 }
 
+/* Casillas de la Palabra */
 .word-display {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
-    min-height: 60px;
+    min-height: 65px;
     align-items: center;
 }
 
 .letter-box {
-    width: 45px;
-    height: 55px;
-    border-bottom: 4px solid var(--primary-color);
+    width: 48px;
+    height: 58px;
+    background: #0f172a;
+    border: 2px solid var(--border-color);
+    border-bottom: 5px solid var(--bee-yellow);
+    border-radius: 10px;
+    font-family: 'Fredoka', sans-serif;
     font-size: 2rem;
     font-weight: bold;
+    color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
+/* Teclado Virtual */
 .keyboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
     gap: 8px;
-    max-width: 650px;
+    max-width: 680px;
     margin: 0 auto;
 }
 
 .key-btn {
-    padding: 12px 5px;
-    font-size: 1.1rem;
-    font-weight: bold;
+    padding: 12px 0;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
     background: #334155;
     color: var(--text-main);
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s;
+    box-shadow: 0 4px 0 #1e293b;
+    transition: all 0.15s ease;
 }
 
 .key-btn:hover:not(:disabled) {
-    background: var(--primary-color);
+    background: var(--bee-yellow);
+    color: #0f172a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #d97706;
+}
+
+.key-btn:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: none;
 }
 
 .key-btn:disabled {
-    opacity: 0.3;
+    opacity: 0.25;
+    background: #1e293b;
+    box-shadow: none;
     cursor: not-allowed;
 }
 
-/* --- MODAL Y ESTRUCTURA DE LOBBY --- */
+/* Contenedor del Canvas */
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    width: 100%;
+}
 
+#hangman-canvas {
+    background-color: #ffffff;
+    border: 3px solid var(--bee-yellow);
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+}
+
+/* --- MODAL Y LOBBY --- */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(15, 23, 42, 0.9);
+    background-color: rgba(13, 27, 42, 0.92);
+    backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -149,147 +249,202 @@ body {
     background: #ffffff;
     color: #0f172a;
     width: 90%;
-    max-width: 500px;
-    padding: 25px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    max-width: 520px;
+    padding: 30px;
+    border-radius: 24px;
+    border: 4px solid var(--bee-yellow);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    position: relative;
 }
 
 .modal-header {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.modal-mascot {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    animation: floatMascot 3s ease-in-out infinite;
+}
+
+@keyframes floatMascot {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+}
+
+.modal-header h2 {
+    font-family: 'Fredoka', sans-serif;
+    color: #0f172a;
+    font-size: 1.8rem;
+    margin-top: 8px;
 }
 
 .badge {
-    background: #e0e7ff;
-    color: #4338ca;
-    padding: 4px 10px;
+    background: #fef3c7;
+    color: #b45309;
+    padding: 6px 14px;
     border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    margin-bottom: 15px;
+    gap: 6px;
+    margin-bottom: 18px;
 }
 
 .form-group label {
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #334155;
 }
 
 .form-group input {
-    padding: 10px;
+    padding: 12px;
     border: 2px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
 }
 
 .divider {
     border: 0;
-    height: 1px;
+    height: 2px;
     background: #e2e8f0;
-    margin: 15px 0;
+    margin: 20px 0;
 }
 
 .section-title {
     text-align: center;
-    font-size: 0.8rem;
-    font-weight: bold;
+    font-size: 0.85rem;
+    font-weight: 800;
     color: #64748b;
-    margin-bottom: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
 }
 
 .lobby-options {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 16px;
 }
 
 .option-card {
     background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    padding: 15px;
-    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    padding: 18px;
+    border-radius: 16px;
 }
 
 .option-header-title {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 5px;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.option-header-title h3 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.2rem;
+    color: #1e293b;
 }
 
 .option-card p {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: #64748b;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .btn {
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 8px;
-    font-weight: bold;
+    border-radius: 12px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 0.95rem;
+    transition: all 0.2s;
 }
 
-.btn-primary { background: #4f46e5; color: white; width: 100%; }
-.btn-success { background: #16a34a; color: white; }
+.btn-primary {
+    background: var(--primary-color);
+    color: #ffffff;
+    width: 100%;
+    box-shadow: 0 4px 0 #b45309;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: #334155;
+    font-weight: 700;
+}
+
+.btn-success {
+    background: var(--accent-green);
+    color: white;
+    box-shadow: 0 4px 0 #15803d;
+}
+
+.btn-success:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+}
 
 .host-code-box {
-    margin-top: 10px;
-    background: #e0e7ff;
-    padding: 10px;
-    border-radius: 8px;
+    margin-top: 12px;
+    background: #fef3c7;
+    border: 2px dashed #f59e0b;
+    padding: 12px;
+    border-radius: 12px;
     text-align: center;
 }
 
 .code-box {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #4338ca;
-    letter-spacing: 2px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.2rem;
+    color: #b45309;
+    letter-spacing: 4px;
 }
 
 .status-msg {
     margin-top: 8px;
-    font-weight: 600;
-    color: #16a34a;
-    font-size: 0.9rem;
+    font-weight: 700;
+    color: #15803d;
+    font-size: 0.95rem;
 }
 
 .join-input-group {
     display: flex;
-    gap: 8px;
+    gap: 10px;
 }
 
 .join-input-group input {
     flex: 1;
-    padding: 8px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
+    padding: 10px;
+    border: 2px solid #cbd5e1;
+    border-radius: 10px;
     text-align: center;
-    font-size: 1.1rem;
-}
-
-/* Contenedor del lienzo */
-.canvas-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 15px auto;
-    width: 100%;
-}
-
-/* Estilo del lienzo del ahorcado */
-#hangman-canvas {
-    background-color: #f8fafc; /* Fondo claro para resaltar el trazo */
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    font-size: 1.2rem;
+    font-weight: bold;
 }

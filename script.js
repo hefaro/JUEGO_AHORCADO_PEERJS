@@ -62,7 +62,7 @@ class Com_peerJS {
     }
 }
 
-// --- SINTETIZADOR DE SONIDOS (WEB AUDIO API - SIN ARCHIVOS EXTERNOS) ---
+// --- SINTETIZADOR DE SONIDOS ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 function playSound(type) {
@@ -73,12 +73,11 @@ function playSound(type) {
     const now = audioCtx.currentTime;
 
     if (type === 'correct') {
-        // Tono agudo y alegre (Acierto)
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(587.33, now); // Re5
-        osc.frequency.exponentialRampToValueAtTime(880, now + 0.15); // La5
+        osc.frequency.setValueAtTime(587.33, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
         gain.gain.setValueAtTime(0.2, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
         osc.connect(gain);
@@ -87,7 +86,6 @@ function playSound(type) {
         osc.stop(now + 0.15);
 
     } else if (type === 'wrong') {
-        // Tono grave disonante (Error)
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sawtooth';
@@ -101,8 +99,7 @@ function playSound(type) {
         osc.stop(now + 0.25);
 
     } else if (type === 'win') {
-        // Arpegio de victoria
-        const notes = [523.25, 659.25, 783.99, 1046.50]; // Do, Mi, Sol, Do
+        const notes = [523.25, 659.25, 783.99, 1046.50];
         notes.forEach((freq, idx) => {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
@@ -117,7 +114,6 @@ function playSound(type) {
         });
 
     } else if (type === 'lose') {
-        // Escala descendente de derrota
         const notes = [300, 260, 220, 180];
         notes.forEach((freq, idx) => {
             const osc = audioCtx.createOscillator();
@@ -134,27 +130,9 @@ function playSound(type) {
     }
 }
 
-// --- BANCO DE PALABRAS ---
-const BANCO_PALABRAS = [
-    "ALGEBRA", 
-    "GEOMETRIA", 
-    "ECUACION", 
-    "VARIABLE", 
-    "POLINOMIO", 
-    "GRAFICA", 
-    "VECTOR",
-    "MARIPOSA",
-    "ORUGA",
-    "IGUANA",
-    "ZARIGUELLA",
-    "KENIA",
-    "BARRANQUILLA",
-    "CELULA",
-    "NARCISO",
-];
-
 // --- VARIABLES DEL JUEGO ---
 let targetWord = "";
+let currentHint = "";
 let guessedLetters = [];
 let myName = "";
 let opponentName = "Oponente";
@@ -180,11 +158,12 @@ const startMatchBtn = document.getElementById('start-match-btn');
 const joinOptionCard = document.getElementById('join-option-card');
 const statusBar = document.getElementById('status-bar');
 const statusText = document.getElementById('status-text');
-const hintCard = document.querySelector('.hint-card');
+const hintDisplay = document.getElementById('hint-display');
 const wordDisplay = document.getElementById('word-display');
 const keyboardContainer = document.getElementById('keyboard');
+const resetGameBtn = document.getElementById('reset-game-btn');
 
-// Elemento Canvas para el muñeco
+// Elemento Canvas
 const canvas = document.getElementById('hangman-canvas');
 const ctx = canvas ? canvas.getContext('2d') : null;
 
@@ -228,11 +207,12 @@ red.onDatosRecibidos = (datos) => {
     if (datos.tipo === 'NOMBRE_JUGADOR') {
         opponentName = datos.nombre || "Oponente";
     } 
-    else if (datos.tipo === 'INICIAR_PARTIDA') {
+    else if (datos.tipo === 'INICIAR_PARTIDA' || datos.tipo === 'REINICIAR_JUEGO') {
         if (startModal) startModal.classList.add('modal-hidden');
         targetWord = datos.word;
+        currentHint = datos.hint;
         activeTurnPlayer = datos.startTurn;
-        opponentName = datos.hostName || opponentName;
+        if (datos.hostName) opponentName = datos.hostName;
         
         iniciarJuego();
     } 
@@ -247,7 +227,7 @@ red.onError = (err) => {
     if (joinGameBtn) joinGameBtn.disabled = false;
 };
 
-// --- EVENTOS DE BOTONES EN MODAL ---
+// --- EVENTOS DE BOTONES ---
 
 if (hostGameBtn) {
     hostGameBtn.addEventListener('click', () => {
@@ -294,21 +274,34 @@ if (joinGameBtn) {
 if (startMatchBtn) {
     startMatchBtn.addEventListener('click', () => {
         if (!esHost) return;
-
         if (startModal) startModal.classList.add('modal-hidden');
-
-        targetWord = BANCO_PALABRAS[Math.floor(Math.random() * BANCO_PALABRAS.length)];
-        activeTurnPlayer = Math.floor(Math.random() * 2);
-
-        red.enviar({ 
-            tipo: 'INICIAR_PARTIDA', 
-            word: targetWord, 
-            startTurn: activeTurnPlayer,
-            hostName: myName
-        });
-
-        iniciarJuego();
+        reiniciarPartidaComoHost();
     });
+}
+
+if (resetGameBtn) {
+    resetGameBtn.addEventListener('click', () => {
+        if (esHost) {
+            reiniciarPartidaComoHost();
+        }
+    });
+}
+
+function reiniciarPartidaComoHost() {
+    const itemSeleccionado = BANCO_PALABRAS[Math.floor(Math.random() * BANCO_PALABRAS.length)];
+    targetWord = itemSeleccionado.word;
+    currentHint = itemSeleccionado.hint;
+    activeTurnPlayer = Math.floor(Math.random() * 2);
+
+    red.enviar({ 
+        tipo: 'REINICIAR_JUEGO', 
+        word: targetWord, 
+        hint: currentHint,
+        startTurn: activeTurnPlayer,
+        hostName: myName
+    });
+
+    iniciarJuego();
 }
 
 // --- LÓGICA DEL JUEGO Y DIBUJO ---
@@ -318,7 +311,11 @@ function iniciarJuego() {
     wrongAttempts = 0;
     gameActive = true;
 
-    if (hintCard) hintCard.style.display = 'none';
+    if (resetGameBtn) resetGameBtn.classList.add('hidden');
+
+    if (hintDisplay) {
+        hintDisplay.textContent = currentHint;
+    }
 
     limpiarCanvas();
     renderPalabra();
@@ -388,14 +385,13 @@ function procesarIntento(letra, siguienteTurno, esLocal) {
     if (!acierto) {
         wrongAttempts++;
         dibujarAhorcado(wrongAttempts);
-        playSound('wrong'); // Sonido de error
+        playSound('wrong');
     } else {
-        playSound('correct'); // Sonido de acierto
+        playSound('correct');
     }
 
     renderPalabra();
 
-    // Verificación de victoria
     const haGanado = targetWord.split('').every(char => guessedLetters.includes(char));
 
     if (haGanado) {
@@ -405,20 +401,31 @@ function procesarIntento(letra, siguienteTurno, esLocal) {
             statusText.textContent = `🏆 ¡COMPLETADO! El ganador es ${ganador}`;
             statusText.style.color = "#16a34a";
         }
-        playSound('win'); // Sonido de victoria
+        playSound('win');
         deshabilitarTeclado();
+        
+        if (esHost && resetGameBtn) {
+            resetGameBtn.classList.remove('hidden');
+        } else if (!esHost && statusText) {
+            statusText.textContent += " — Esperando a que el anfitrión reinicie...";
+        }
         return;
     }
 
-    // Verificación de derrota por completar el muñeco
     if (wrongAttempts >= MAX_ATTEMPTS) {
         gameActive = false;
         if (statusText) {
             statusText.textContent = `💀 ¡AHORCADO! Se agotaron los intentos. La palabra era: ${targetWord}`;
             statusText.style.color = "#dc2626";
         }
-        playSound('lose'); // Sonido de derrota
+        playSound('lose');
         deshabilitarTeclado();
+        
+        if (esHost && resetGameBtn) {
+            resetGameBtn.classList.remove('hidden');
+        } else if (!esHost && statusText) {
+            statusText.textContent += " — Esperando a que el anfitrión reinicie...";
+        }
         return;
     }
 
@@ -447,51 +454,37 @@ function deshabilitarTeclado() {
     botones.forEach(btn => btn.disabled = true);
 }
 
-// --- DIBUJO DEL AHORCADO CON CANVAS ---
+// --- DIBUJO CON CANVAS ---
 
 function limpiarCanvas() {
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Configuración de trazo de la horca
     ctx.strokeStyle = "#334155";
     ctx.lineWidth = 3;
     ctx.beginPath();
     
-    // Estructura fija de la horca
-    ctx.moveTo(20, 180); ctx.lineTo(180, 180); // Base
-    ctx.moveTo(50, 180); ctx.lineTo(50, 20);   // Poste vertical
-    ctx.moveTo(50, 20);  ctx.lineTo(130, 20);  // Poste superior
-    ctx.moveTo(130, 20); ctx.lineTo(130, 40);  // Cuerda
+    ctx.moveTo(20, 180); ctx.lineTo(180, 180); 
+    ctx.moveTo(50, 180); ctx.lineTo(50, 20);   
+    ctx.moveTo(50, 20);  ctx.lineTo(130, 20);  
+    ctx.moveTo(130, 20); ctx.lineTo(130, 40);  
     ctx.stroke();
 }
 
 function dibujarAhorcado(paso) {
     if (!ctx) return;
     
-    ctx.strokeStyle = "#ef4444"; // Color rojo para el cuerpo
+    ctx.strokeStyle = "#ef4444"; 
     ctx.lineWidth = 3;
     ctx.beginPath();
 
     switch(paso) {
-        case 1: // Cabeza
-            ctx.arc(130, 55, 15, 0, Math.PI * 2);
-            break;
-        case 2: // Tronco
-            ctx.moveTo(130, 70); ctx.lineTo(130, 120);
-            break;
-        case 3: // Brazo izquierdo
-            ctx.moveTo(130, 85); ctx.lineTo(105, 105);
-            break;
-        case 4: // Brazo derecho
-            ctx.moveTo(130, 85); ctx.lineTo(155, 105);
-            break;
-        case 5: // Pierna izquierda
-            ctx.moveTo(130, 120); ctx.lineTo(105, 155);
-            break;
-        case 6: // Pierna derecha
-            ctx.moveTo(130, 120); ctx.lineTo(155, 155);
-            break;
+        case 1: ctx.arc(130, 55, 15, 0, Math.PI * 2); break;
+        case 2: ctx.moveTo(130, 70); ctx.lineTo(130, 120); break;
+        case 3: ctx.moveTo(130, 85); ctx.lineTo(105, 105); break;
+        case 4: ctx.moveTo(130, 85); ctx.lineTo(155, 105); break;
+        case 5: ctx.moveTo(130, 120); ctx.lineTo(105, 155); break;
+        case 6: ctx.moveTo(130, 120); ctx.lineTo(155, 155); break;
     }
     ctx.stroke();
 }

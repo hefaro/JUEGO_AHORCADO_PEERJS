@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahorcado Matemático P2P</title>
-    <!-- KaTeX para expresiones matemáticas -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <title>Ahorcado para Genios - Genios del NCS | I.E. N.C.S.</title>
     <!-- Librería PeerJS desde CDN -->
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -16,18 +13,26 @@
     <div class="game-container">
         <!-- Barra superior de estado -->
         <header class="header-bar">
-            <h1>🎮 Ahorcado Matemático</h1>
+            <div class="school-identity">
+                <span class="school-name">I.E. NARCISO CABAL SALCEDO</span>
+                <span class="event-badge">🧠 GENIOS DEL NCS 🧠</span>
+            </div>
+            <h1>🎮 Ahorcado para Genios</h1>
             <div id="status-bar" class="status-bar hidden">
                 <span id="status-text">Esperando conexión...</span>
+            </div>
+            <!-- BOTÓN DE REINICIAR JUEGO -->
+            <div style="margin-top: 12px;">
+                <button id="reset-game-btn" class="btn btn-secondary hidden">🔄 Reiniciar Juego</button>
             </div>
         </header>
 
         <!-- Contenedor Principal del Juego -->
         <main class="main-content">
-            <!-- Pista Matemática -->
+            <!-- Pista de Vocabulario -->
             <div class="card hint-card">
-                <h2>Pista Matemática:</h2>
-                <div id="hint-display" class="math-container">\text{Cargando pista...}</div>
+                <h2>Pista:</h2>
+                <div id="hint-display" class="math-container">Cargando pista...</div>
             </div>
 
             <!-- DIBUJO DEL AHORCADO (CANVAS) -->
@@ -49,21 +54,23 @@
         </main>
     </div>
 
-    <!-- MODAL INICIAL DE CONEXIÓN Y LOBBY -->
+    <!-- PANTALLA / LOBBY INICIAL -->
     <div id="start-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="badge">🎮 Modo Multijugador</span>
-                <h2>¡Bienvenido al Ahorcado!</h2>
+                <div class="modal-logo-container">
+                    <img src="bee.png" alt="Mascota I.E. N.C.S." class="modal-mascot">
+                </div>
+                <span class="badge">🧠 GENIOS DEL NCS • I.E. N.C.S. 🧠</span>
+                <h2>¡Ahorcado para Genios!</h2>
                 
-                <!-- BOTÓN DE INSTRUCCIONES AGREGADO -->
                 <div style="margin-top: 10px;">
                     <a href="instrucciones.html" target="_blank" class="btn btn-secondary" style="text-decoration: none; display: inline-block; font-size: 0.85rem;">
                         📖 Ver Instrucciones del Juego
                     </a>
                 </div>
                 
-                <p style="margin-top: 15px;">Ingresa tu nombre para comenzar:</p>
+                <p style="margin-top: 15px;">Ingresa tu nombre para comenzar la competencia:</p>
             </div>
 
             <div class="form-group">
@@ -94,7 +101,6 @@
                             Esperando oponente...
                         </p>
 
-                        <!-- Botón para iniciar partida al conectarse -->
                         <button id="start-match-btn" class="btn btn-success hidden" style="margin-top: 12px; width: 100%;">
                             🚀 ¡Iniciar Juego Ahora!
                         </button>
@@ -119,6 +125,8 @@
         </div>
     </div>
 
+    <!-- CARGA DIRECTA SIN MÓDULOS CORS -->
+    <script src="palabras.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
